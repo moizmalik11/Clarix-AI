@@ -12,7 +12,10 @@ export default function MCQCard({ index, question, options = [], correctAnswerIn
     setSelected(idx);
   };
 
- 
+  const getOptionStyle = (idx) => {
+    if (selected === null) {
+      return 'border-border hover:bg-muted/50 text-foreground';
+    }
     
     // When an option is selected, reveal correct/incorrect states
     // In real app, you might wait for submission. Let's just show it immediately for simple demo.
