@@ -10,6 +10,7 @@ export default function Navbar() {
         <span className="tracking-tight">Clarix AI</span>
       </Link>
       
+      
       <div className="flex items-center gap-4">
         <Link href="/upload">
           <Button variant="default" size="sm">Get Started</Button>
