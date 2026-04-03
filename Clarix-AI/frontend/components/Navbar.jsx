@@ -11,11 +11,5 @@ export default function Navbar() {
       </Link>
       
       
-      <div className="flex items-center gap-4">
-        <Link href="/upload">
-          <Button variant="default" size="sm">Get Started</Button>
-        </Link>
-      </div>
-    </nav>
   );
 }
