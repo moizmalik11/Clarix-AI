@@ -16,6 +16,8 @@ export default function Navbar() {
           <Button variant="default" size="sm">Get Started</Button>
         </Link>
       </div>
+
+      
     </nav>
   );
 }
