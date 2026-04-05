@@ -16,8 +16,8 @@ async def upload_file(file: UploadFile = File(...)):
         clean_text = clean_extracted_text(raw_text)
         delete_file(file_path)
         
-        if not clean_text:
-            raise HTTPException(status_code=400, detail="Could not extract text from the file.")
+        if not clean_text or len(clean_text.strip()) < 10:
+            raise HTTPException(status_code=400, detail="Document appears to be an image or scanned PDF. No readable/selectable text found. Please upload a standard text PDF/DOCX.")
         
         prompt = f"Extract a list of 3-5 main topics or headings from the following text. Return ONLY a JSON array of strings.\n\nText:\n{clean_text[:5000]}"
         topics = []
@@ -35,5 +35,7 @@ async def upload_file(file: UploadFile = File(...)):
             extracted_text=clean_text,
             topics=topics
         )
+    except HTTPException as he:
+        raise he
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
