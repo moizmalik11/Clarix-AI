@@ -77,7 +77,7 @@ export default function ResultPage() {
                 Detailed Study Notes
               </h2>
               <div className="prose prose-sm md:prose-base text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                {result.prepared_notes}
+                {result.study_notes}
               </div>
             </div>
           </div>

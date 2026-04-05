@@ -18,7 +18,7 @@ def generate_quiz(text: str, question_count: int, difficulty: str):
         response = model.generate_content(prompt)
         response_text = response.text.replace("```json", "").replace("```", "").strip()
         data = json.loads(response_text)
-        return data
+        return {"questions": data}
     except Exception as e:
         print("Quiz Generation Error:", e)
-        return []
+        return {"questions": []}
