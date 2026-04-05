@@ -1,7 +1,7 @@
 // services/api.js
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
-export const uploadPDF = async (file) => {
+export const uploadFileAPI = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
 
@@ -11,22 +11,38 @@ export const uploadPDF = async (file) => {
   });
 
   if (!res.ok) {
-    throw new Error('Upload failed');
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || 'Upload failed');
   }
 
   return res.json();
 };
 
-export const generateSummaryAndQuiz = async (documentId, settings) => {
-  const res = await fetch(`${API_URL}/generate`, {
+export const studySyllabusAPI = async (text, topics = []) => {
+  const res = await fetch(`${API_URL}/study`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ documentId, ...settings }),
+    body: JSON.stringify({ text, topics }),
   });
 
   if (!res.ok) {
-    throw new Error('Failed to generate results');
+    throw new Error('Failed to generate study material');
   }
 
   return res.json();
 };
+
+export const takeQuizAPI = async (text, questionCount = 5, difficulty = 'medium') => {
+  const res = await fetch(`${API_URL}/quiz`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, question_count: questionCount, difficulty }),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to generate quiz');
+  }
+
+  return res.json();
+};
+

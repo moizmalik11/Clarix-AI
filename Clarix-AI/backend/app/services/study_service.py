@@ -1,14 +1,19 @@
 from app.core.gemini import model
 import json
+from typing import List
 
-def generate_study_material(text: str):
+def generate_study_material(text: str, topics: List[str] = None):
+    topics_str = f"Focus particularly on these key topics: {', '.join(topics)}." if topics else ""
+    
     prompt = f"""
     You are an expert AI tutor. Analyze the following text and provide a structured study guide.
+    {topics_str}
+    
     Return the result ONLY as a valid JSON object with the exact following keys:
-    - "core_concepts": A clear explanation of the main concepts.
+    - "core_concepts": A clear explanation of the main concepts, expanding on the provided topics.
     - "key_points": Bullet points of the most important information.
     - "summary": A brief summary of the entire text.
-    - "prepared_notes": Detailed notes prepared for exam study.
+    - "prepared_notes": Detailed notes prepared for exam study covering the extracted topics.
 
     Text to analyze:
     {text[:20000]}
@@ -16,11 +21,13 @@ def generate_study_material(text: str):
     try:
         response = model.generate_content(prompt)
         response_text = response.text.replace("```json", "").replace("```", "").strip()
-        return json.loads(response_text)
+        data = json.loads(response_text)
+        return data
     except Exception as e:
+        print("Study Material Error:", e)
         return {
-            "core_concepts": "Error generating content.",
-            "key_points": str(e),
-            "summary": "Please try again.",
+            "core_concepts": "Error generating content. Please verify your API key and document.",
+            "key_points": f"Error details: {str(e)}",
+            "summary": "Please try again and ensure the Gemini API is correctly configured.",
             "prepared_notes": ""
         }

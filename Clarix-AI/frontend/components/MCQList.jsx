@@ -3,49 +3,30 @@ import MCQCard from './MCQCard';
 export default function MCQList({ questions = [] }) {
   if (questions.length === 0) {
     return (
-      <div className="space-y-2">
-        <MCQCard 
-          index={0} 
-          question="What is the primary function of Clarix AI?"
-          options={[
-            "To edit videos",
-            "To summarize text and generate quizzes",
-            "To build 3D models",
-            "To send emails"
-          ]}
-          correctAnswerIndex={1}
-        />
-        <MCQCard 
-          index={1}
-          question="Which types of documents are currently supported?"
-          options={[
-            "PDF, DOCX, and TXT",
-            "Images and Audio",
-            "Excel files only",
-            "ZIP archives"
-          ]}
-          correctAnswerIndex={0}
-        />
-        <MCQCard 
-          index={2}
-          question="How does Clarix generate its multiple-choice questions?"
-          options={[
-            "Randomly guessing words",
-            "Human experts review the document",
-            "Using advanced Large Language Models (LLMs)",
-            "Searching Wikipedia"
-          ]}
-          correctAnswerIndex={2}
-        />
+      <div className="space-y-4 text-center py-10 text-muted-foreground">
+        <p>No questions generated.</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      {questions.map((q, idx) => (
-        <MCQCard key={idx} index={idx} question={q.question} options={q.options} correctAnswerIndex={q.correctAnswerIndex} />
-      ))}
+    <div className="space-y-6">
+      {questions.map((q, idx) => {
+        // q.options is [{text, is_correct}]
+        const optionsList = q.options.map(opt => opt.text || opt);
+        const correctIdx = q.options.findIndex(opt => opt.is_correct === true);
+        
+        return (
+          <MCQCard 
+            key={idx} 
+            index={idx} 
+            question={q.question} 
+            options={optionsList} 
+            correctAnswerIndex={correctIdx >= 0 ? correctIdx : 0} 
+            explanation={q.explanation}
+          />
+        );
+      })}
     </div>
   );
 }

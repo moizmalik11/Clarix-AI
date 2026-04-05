@@ -9,5 +9,5 @@ async def study_content(request: StudyRequest):
     if not request.text:
         raise HTTPException(status_code=400, detail="Text is required")
     
-    result = generate_study_material(request.text)
+    result = generate_study_material(request.text, request.topics)
     return StudyResponse(**result)

@@ -5,34 +5,29 @@ import { useClarix } from '../../context/ClarixContext';
 import UploadZone from '../../components/UploadZone';
 import SettingsPanel from '../../components/SettingsPanel';
 import StepTracker from '../../components/StepTracker';
-import { FileUp, SlidersHorizontal, ListChecks, Loader2, Sparkles } from 'lucide-react';
+import { FileUp, SlidersHorizontal, ListChecks, Loader2, Sparkles, AlertCircle } from 'lucide-react';
 import { Button } from '../../components/ui/button';
+import { uploadFileAPI } from '../../services/api';
 
 export default function UploadPage() {
-  const { file, isAnalyzed, setIsAnalyzed, isAnalyzing, setIsAnalyzing, extractedTopics, setExtractedTopics } = useClarix();
-  const [progress, setProgress] = useState(0);
+  const { file, isAnalyzed, setIsAnalyzed, isAnalyzing, setIsAnalyzing, extractedTopics, setExtractedTopics, setExtractedText } = useClarix();
+  const [error, setError] = useState(null);
 
-  const startAnalysis = () => {
+  const startAnalysis = async () => {
     setIsAnalyzing(true);
-    setProgress(0);
-    // Simulate analyzing process
-    const interval = setInterval(() => {
-      setProgress(p => {
-        if(p >= 100) {
-          clearInterval(interval);
-          setExtractedTopics([
-             "Introduction to Core Concepts",
-             "Key Principles & Methodologies",
-             "Practical Applications",
-             "Summary & Conclusion"
-          ]);
-          setIsAnalyzed(true);
-          setIsAnalyzing(false);
-          return 100;
-        }
-        return p + 2; // Increments by 2%
-      });
-    }, 50);
+    setError(null);
+    
+    try {
+      const response = await uploadFileAPI(file);
+      setExtractedTopics(response.topics || ["Introduction to Core Concepts", "Summary"]);
+      setExtractedText(response.extracted_text);
+      setIsAnalyzed(true);
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'Failed to extract text from the file.');
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -71,6 +66,12 @@ export default function UploadPage() {
                    <p className="text-muted-foreground text-center mb-6">
                      We will now scan your document to extract topics, headings, and core study material.
                    </p>
+                   {error && (
+                     <div className="mb-6 p-4 w-full bg-destructive/10 text-destructive border border-destructive/20 rounded-lg flex items-start gap-3">
+                        <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                        <p className="text-sm font-medium">{error}</p>
+                     </div>
+                   )}
                    <Button size="lg" onClick={startAnalysis} className="h-14 px-10 text-lg font-bold group shadow-lg w-full sm:w-auto">
                      <Sparkles className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
                      Analyze Document
@@ -80,15 +81,7 @@ export default function UploadPage() {
                  <div className="w-full flex flex-col items-center py-4">
                     <Loader2 className="w-12 h-12 text-primary animate-spin mb-6" />
                     <h3 className="text-xl font-bold mb-2">Analyzing your file...</h3>
-                    <p className="text-sm text-muted-foreground animate-pulse mb-6">Reading text and mapping topics</p>
-                    
-                    <div className="w-full max-w-md h-3 bg-muted rounded-full overflow-hidden shadow-inner">
-                      <div 
-                        className="h-full bg-primary rounded-full transition-all duration-100 ease-out"
-                        style={{ width: `${progress}%` }}
-                      ></div>
-                    </div>
-                    <span className="mt-3 font-semibold text-primary">{progress}%</span>
+                    <p className="text-sm text-muted-foreground mb-6">Communicating with AI, extracting text and topics.</p>
                  </div>
                )}
             </div>

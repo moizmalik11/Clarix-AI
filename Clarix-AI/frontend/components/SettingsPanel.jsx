@@ -1,23 +1,41 @@
 "use client";
 
 import { useClarix } from '../context/ClarixContext';
-import { Settings2, Wand2, BookOpen, BrainCircuit } from 'lucide-react';
+import { Settings2, Wand2, BookOpen, BrainCircuit, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { studySyllabusAPI, takeQuizAPI } from '../services/api';
 
 export default function SettingsPanel() {
-  const { settings, setSettings, file } = useClarix();
+  const { settings, setSettings, file, extractedText, extractedTopics, setResult, activeMode, setActiveMode } = useClarix();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('study'); // 'study' or 'quiz'
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleGenerate = () => {
-    if(!file) {
-      alert("Please upload a file first.");
+  const handleGenerate = async () => {
+    if(!file || !extractedText) {
+      alert("Please upload and analyze a file first.");
       return;
     }
-    // Setup logic to handle study vs quiz mode here
-    router.push('/result');
+    
+    setLoading(true);
+    setError(null);
+    try {
+      if (activeMode === 'study') {
+        const response = await studySyllabusAPI(extractedText, extractedTopics);
+        setResult(response);
+      } else {
+        const response = await takeQuizAPI(extractedText, settings.mcqCount, settings.difficulty);
+        setResult(response);
+      }
+      router.push('/result');
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'Something went wrong while generating the material.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,15 +50,16 @@ export default function SettingsPanel() {
       {/* Mode Selection */}
       <div className="grid grid-cols-2 gap-4 mb-8 mt-2 relative z-10">
         <button
-          onClick={() => setActiveTab('study')}
+          onClick={() => !loading && setActiveMode('study')}
           className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
-            activeTab === 'study' 
+            activeMode === 'study' 
               ? 'border-primary bg-primary/5 shadow-sm scale-105' 
               : 'border-border bg-card hover:bg-muted/50 hover:border-primary/50'
-          }`}
+          } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={loading}
         >
-          <BookOpen className={`w-8 h-8 mb-3 ${activeTab === 'study' ? 'text-primary' : 'text-muted-foreground'}`} />
-          <span className={`font-semibold ${activeTab === 'study' ? 'text-primary' : 'text-foreground'}`}>
+          <BookOpen className={`w-8 h-8 mb-3 ${activeMode === 'study' ? 'text-primary' : 'text-muted-foreground'}`} />
+          <span className={`font-semibold ${activeMode === 'study' ? 'text-primary' : 'text-foreground'}`}>
             Study Syllabus
           </span>
           <span className="text-[10px] text-muted-foreground mt-1 text-center">
@@ -49,15 +68,16 @@ export default function SettingsPanel() {
         </button>
 
         <button
-          onClick={() => setActiveTab('quiz')}
+          onClick={() => !loading && setActiveMode('quiz')}
           className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
-            activeTab === 'quiz' 
+            activeMode === 'quiz' 
               ? 'border-blue-500 bg-blue-500/5 shadow-sm scale-105' 
               : 'border-border bg-card hover:bg-muted/50 hover:border-blue-500/50'
-          }`}
+          } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={loading}
         >
-          <BrainCircuit className={`w-8 h-8 mb-3 ${activeTab === 'quiz' ? 'text-blue-500' : 'text-muted-foreground'}`} />
-          <span className={`font-semibold ${activeTab === 'quiz' ? 'text-blue-500' : 'text-foreground'}`}>
+          <BrainCircuit className={`w-8 h-8 mb-3 ${activeMode === 'quiz' ? 'text-blue-500' : 'text-muted-foreground'}`} />
+          <span className={`font-semibold ${activeMode === 'quiz' ? 'text-blue-500' : 'text-foreground'}`}>
             Take a Quiz
           </span>
           <span className="text-[10px] text-muted-foreground mt-1 text-center">
@@ -66,7 +86,7 @@ export default function SettingsPanel() {
         </button>
       </div>
 
-      {activeTab === 'quiz' ? (
+      {activeMode === 'quiz' ? (
         <div className="flex flex-col animate-in fade-in slide-in-from-right-4 duration-300 relative z-10">
           <div className="mb-6">
             <div className="flex justify-between items-center mb-3">
@@ -83,6 +103,7 @@ export default function SettingsPanel() {
               onChange={(e) => setSettings({ ...settings, mcqCount: parseInt(e.target.value) || 5 })}
               min="1"
               max="50"
+              disabled={loading}
             />
             <div className="flex justify-between text-xs text-muted-foreground mt-2 px-1 font-medium">
               <span>1</span>
@@ -98,11 +119,12 @@ export default function SettingsPanel() {
                 <button
                   key={level}
                   onClick={() => setSettings({ ...settings, difficulty: level })}
+                  disabled={loading}
                   className={`py-2.5 text-sm font-bold rounded-lg capitalize transition-all ${
                     settings.difficulty === level 
                       ? 'bg-background text-primary shadow-sm ring-1 ring-border' 
                       : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
-                  }`}
+                  } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {level}
                 </button>
@@ -120,19 +142,34 @@ export default function SettingsPanel() {
         </div>
       )}
 
+      {error && (
+        <div className="mt-4 p-3 bg-destructive/10 text-destructive text-sm rounded-lg relative z-10 border border-destructive/20 font-medium">
+          {error}
+        </div>
+      )}
+
       {/* Decorative Blur Background Element */}
-      <div className={`absolute -bottom-20 -right-20 w-64 h-64 blur-3xl opacity-20 transition-colors duration-500 rounded-full z-0 pointer-events-none ${activeTab === 'study' ? 'bg-primary' : 'bg-blue-500'}`}></div>
+      <div className={`absolute -bottom-20 -right-20 w-64 h-64 blur-3xl opacity-20 transition-colors duration-500 rounded-full z-0 pointer-events-none ${activeMode === 'study' ? 'bg-primary' : 'bg-blue-500'}`}></div>
 
       <Button 
         onClick={handleGenerate} 
         className={`w-full mt-8 group h-14 text-lg font-bold shadow-lg transition-all hover:-translate-y-1 relative z-10 ${
-          activeTab === 'quiz' ? 'bg-blue-600 hover:bg-blue-700 text-white' : ''
+          activeMode === 'quiz' ? 'bg-blue-600 hover:bg-blue-700 text-white' : ''
         }`} 
         size="lg" 
-        disabled={!file}
+        disabled={!file || loading}
       >
-        <Wand2 className={`mr-3 h-5 w-5 group-hover:rotate-12 transition-transform ${activeTab === 'study' ? 'animate-pulse' : ''}`} />
-        {activeTab === 'study' ? 'Start Studying' : 'Generate Quiz'}
+        {loading ? (
+          <>
+            <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+            Generating from AI...
+          </>
+        ) : (
+          <>
+            <Wand2 className={`mr-3 h-5 w-5 group-hover:rotate-12 transition-transform ${activeMode === 'study' ? 'animate-pulse' : ''}`} />
+            {activeMode === 'study' ? 'Start Studying' : 'Generate Quiz'}
+          </>
+        )}
       </Button>
     </div>
   );
