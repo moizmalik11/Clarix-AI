@@ -1,13 +1,29 @@
 import pdfplumber
+import fitz  # PyMuPDF
 import docx
 
 def extract_text_from_pdf(file_path: str) -> str:
     text = ""
-    with pdfplumber.open(file_path) as pdf:
-        for page in pdf.pages:
-            extracted = page.extract_text()
-            if extracted:
-                text += extracted + "\n"
+    # Try pdfplumber first
+    try:
+        with pdfplumber.open(file_path) as pdf:
+            for page in pdf.pages:
+                extracted = page.extract_text()
+                if extracted:
+                    text += extracted + "\n"
+    except Exception:
+        pass
+        
+    # If pdfplumber failed to extract meaningful text, fallback to PyMuPDF
+    if len(text.strip()) < 50:
+        text = ""
+        try:
+            doc = fitz.open(file_path)
+            for page in doc:
+                text += page.get_text() + "\n"
+        except Exception as e:
+            print("PyMuPDF extraction error:", e)
+            
     return text
 
 def extract_text_from_docx(file_path: str) -> str:
