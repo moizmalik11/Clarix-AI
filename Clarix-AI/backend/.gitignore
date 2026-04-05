@@ -1,0 +1,22 @@
+# Environments
+venv/
+env/
+.venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Secrets / Configuration
+.env
+
+# Uploads / Temporary files
+uploads/
+*.pdf
+*.docx
+*.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
