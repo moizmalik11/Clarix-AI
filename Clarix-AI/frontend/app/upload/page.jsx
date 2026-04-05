@@ -1,25 +1,51 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { useClarix } from '../../context/ClarixContext';
 import UploadZone from '../../components/UploadZone';
 import SettingsPanel from '../../components/SettingsPanel';
 import StepTracker from '../../components/StepTracker';
-import { FileUp, SlidersHorizontal } from 'lucide-react';
+import { FileUp, SlidersHorizontal, ListChecks, Loader2, Sparkles } from 'lucide-react';
+import { Button } from '../../components/ui/button';
 
 export default function UploadPage() {
-  const { file } = useClarix();
+  const { file, isAnalyzed, setIsAnalyzed, isAnalyzing, setIsAnalyzing, extractedTopics, setExtractedTopics } = useClarix();
+  const [progress, setProgress] = useState(0);
+
+  const startAnalysis = () => {
+    setIsAnalyzing(true);
+    setProgress(0);
+    // Simulate analyzing process
+    const interval = setInterval(() => {
+      setProgress(p => {
+        if(p >= 100) {
+          clearInterval(interval);
+          setExtractedTopics([
+             "Introduction to Core Concepts",
+             "Key Principles & Methodologies",
+             "Practical Applications",
+             "Summary & Conclusion"
+          ]);
+          setIsAnalyzed(true);
+          setIsAnalyzing(false);
+          return 100;
+        }
+        return p + 2; // Increments by 2%
+      });
+    }, 50);
+  };
 
   return (
     <div className="container mx-auto px-4 py-12 bg-background min-h-[calc(100vh-80px)]">
       <div className="text-center mb-10 max-w-2xl mx-auto">
         <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-full mb-4">
-          {file ? <SlidersHorizontal className="w-8 h-8 text-primary" /> : <FileUp className="w-8 h-8 text-primary" />}
+          {isAnalyzed ? <SlidersHorizontal className="w-8 h-8 text-primary" /> : <FileUp className="w-8 h-8 text-primary" />}
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-foreground mb-3">
-          {file ? "Configure Learning Preferences" : "Prepare Your Document"}
+          {isAnalyzed ? "Configure Learning Preferences" : "Prepare Your Document"}
         </h1>
         <p className="text-lg text-muted-foreground">
-          {file 
+          {isAnalyzed 
             ? "Your file is ready! Choose how you want to study this material." 
             : "Upload your syllabus, notes, or textbook securely to get started."}
         </p>
@@ -33,12 +59,67 @@ export default function UploadPage() {
           <div className="max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-500">
             <UploadZone />
           </div>
-        ) : (
-          // Step 2: Show Uploaded File Info + Configuration Options
-          <div className="flex flex-col lg:flex-row gap-8 animate-in fade-in zoom-in-95 duration-500">
-            <div className="lg:w-1/3">
-              <UploadZone />
+        ) : !isAnalyzed ? (
+          // Step 1.5: File Uploaded -> Ready to Analyze
+          <div className="max-w-2xl mx-auto flex flex-col gap-6 animate-in fade-in zoom-in-95 duration-500">
+            <UploadZone />
+            
+            <div className="bg-card border-2 border-border rounded-xl p-8 shadow-sm flex flex-col items-center">
+               {!isAnalyzing ? (
+                 <>
+                   <h3 className="text-2xl font-bold mb-3">Ready for AI Analysis</h3>
+                   <p className="text-muted-foreground text-center mb-6">
+                     We will now scan your document to extract topics, headings, and core study material.
+                   </p>
+                   <Button size="lg" onClick={startAnalysis} className="h-14 px-10 text-lg font-bold group shadow-lg w-full sm:w-auto">
+                     <Sparkles className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
+                     Analyze Document
+                   </Button>
+                 </>
+               ) : (
+                 <div className="w-full flex flex-col items-center py-4">
+                    <Loader2 className="w-12 h-12 text-primary animate-spin mb-6" />
+                    <h3 className="text-xl font-bold mb-2">Analyzing your file...</h3>
+                    <p className="text-sm text-muted-foreground animate-pulse mb-6">Reading text and mapping topics</p>
+                    
+                    <div className="w-full max-w-md h-3 bg-muted rounded-full overflow-hidden shadow-inner">
+                      <div 
+                        className="h-full bg-primary rounded-full transition-all duration-100 ease-out"
+                        style={{ width: `${progress}%` }}
+                      ></div>
+                    </div>
+                    <span className="mt-3 font-semibold text-primary">{progress}%</span>
+                 </div>
+               )}
             </div>
+          </div>
+        ) : (
+          // Step 2: Analyzed -> Show Configuration
+          <div className="flex flex-col lg:flex-row gap-8 animate-in fade-in slide-in-from-bottom-8 duration-500">
+            <div className="lg:w-1/3 flex flex-col gap-6">
+              <UploadZone />
+              
+              {/* Extracted Topics Card */}
+              <div className="bg-card w-full border border-border shadow-md rounded-2xl p-5 animate-in fade-in slide-in-from-left duration-700 delay-150 relative overflow-hidden">
+                 <div className="absolute top-0 left-0 w-1 h-full bg-green-500" />
+                 <h4 className="font-bold flex items-center mb-4 text-lg">
+                   <ListChecks className="text-green-500 w-5 h-5 mr-2" />
+                   AI Extracted Topics
+                 </h4>
+                 <p className="text-sm text-muted-foreground mb-4">I have successfully analyzed the following topics. What should we do next?</p>
+                 <ul className="space-y-3">
+                   {extractedTopics.map((topic, index) => (
+                     <li key={index} className="bg-muted/50 border border-border/50 text-sm font-medium px-3 py-2 rounded-lg flex items-center">
+                       <span className="w-6 h-6 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-xs mr-2 font-bold shrink-0">
+                         {index + 1}
+                       </span>
+                       {topic}
+                     </li>
+                   ))}
+                 </ul>
+              </div>
+            </div>
+            
             <div className="lg:w-2/3">
               <SettingsPanel />
             </div>

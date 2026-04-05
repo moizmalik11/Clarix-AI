@@ -5,17 +5,21 @@ import { UploadCloud, FileText, CheckCircle2, RefreshCw } from 'lucide-react';
 import { Button } from './ui/button';
 
 export default function UploadZone() {
-  const { file, setFile } = useClarix();
+  const { file, setFile, setIsAnalyzed, setIsAnalyzing } = useClarix();
 
   const handleUpload = (e) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
+      setIsAnalyzed(false);
+      setIsAnalyzing(false);
     }
   };
 
   const clearFile = (e) => {
     e.preventDefault();
     setFile(null);
+    setIsAnalyzed(false);
+    setIsAnalyzing(false);
   }
 
   return (
@@ -46,11 +50,11 @@ export default function UploadZone() {
           </label>
         </>
       ) : (
-        <div className="flex flex-col items-center w-full relative group">
+        <div className="flex flex-col items-center w-full relative group animate-in zoom-in fade-in duration-500">
           <h3 className="text-xl font-bold text-foreground mb-4">Document Ready</h3>
           
           <div className="relative p-5 w-full bg-background border border-border shadow-inner rounded-xl flex flex-col items-center gap-3">
-             <div className="absolute -top-3 -right-3">
+             <div className="absolute -top-3 -right-3 animate-bounce">
                <CheckCircle2 className="h-6 w-6 text-green-500 fill-green-100" />
              </div>
             <FileText className="h-10 w-10 text-primary flex-shrink-0" />
