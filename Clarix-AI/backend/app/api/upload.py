@@ -3,7 +3,7 @@ from app.utils.file_handler import save_temp_file, delete_file
 from app.services.extractor import process_file
 from app.utils.text_cleaner import clean_extracted_text
 from app.models.upload_model import UploadResponse
-from app.core.gemini import model
+from app.core.gemini import generate_content_with_fallback
 import json
 
 router = APIRouter()
@@ -23,8 +23,8 @@ async def upload_file(file: UploadFile = File(...)):
         topics = []
         try:
             # Only try to fetch topics if API key is setup correctly
-            response = model.generate_content(prompt)
-            topics = json.loads(response.text.replace("```json", "").replace("```", "").strip())
+            response_text = generate_content_with_fallback(prompt)
+            topics = json.loads(response_text.replace("```json", "").replace("```", "").strip())
         except Exception as e:
             print("Gemini topic extract error:", e)
             topics = ["General Overview", "Core Principles", "Summary"]

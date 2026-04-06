@@ -1,4 +1,4 @@
-from app.core.gemini import model
+from app.core.gemini import generate_content_with_fallback
 import json
 
 def generate_quiz(text: str, question_count: int, difficulty: str):
@@ -12,13 +12,13 @@ def generate_quiz(text: str, question_count: int, difficulty: str):
     - "explanation": A brief explanation of the correct answer.
 
     Text:
-    {text[:20000]}
+    {text[:15000]}
     """
     try:
-        response = model.generate_content(prompt)
-        response_text = response.text.replace("```json", "").replace("```", "").strip()
+        response_text = generate_content_with_fallback(prompt)
+        response_text = response_text.replace("```json", "").replace("```", "").strip()
         data = json.loads(response_text)
-        return {"questions": data}
+        return data
     except Exception as e:
         print("Quiz Generation Error:", e)
-        return {"questions": []}
+        return []

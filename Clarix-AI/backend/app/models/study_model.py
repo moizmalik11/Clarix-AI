@@ -9,4 +9,4 @@ class StudyResponse(BaseModel):
     core_concepts: str
     key_points: str
     summary: str
-    study_notes: str
+    prepared_notes: str
