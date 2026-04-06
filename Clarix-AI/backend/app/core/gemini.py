@@ -3,7 +3,11 @@ import os
 import json
 import urllib.request
 import urllib.error
+from dotenv import load_dotenv
 from app.core.config import settings
+
+# Explicitly load .env so os.environ gets populated properly
+load_dotenv()
 
 # Collect all Gemini keys from environment variables (e.g., GEMINI_API_KEY_1, GEMINI_API_KEY_2...)
 gemini_keys = [v for k, v in os.environ.items() if k.startswith("GEMINI_API_KEY") and v.strip()]

@@ -10,10 +10,10 @@ def generate_study_material(text: str, topics: List[str] = None):
     {topics_str}
     
     Return the result ONLY as a valid JSON object with the exact following keys:
-    - "summary": A brief summary of the entire text.
-    - "core_concepts": A list of clear explanations of the main concepts, expanding on the provided topics.
-    - "key_points": A list of bullet points of the most important information.
-    - "study_notes": Detailed notes prepared for exam study covering the extracted topics.
+    - "summary": A brief summary of the entire text (String).
+    - "core_concepts": A clear explanation of the main concepts, expanding on the provided topics (String, use newlines for line breaks).
+    - "key_points": Bullet points of the most important information (String, with each point on a new line starting with a dash).
+    - "study_notes": Detailed notes prepared for exam study covering the extracted topics (String).
 
     Text to analyze:
     {text[:15000]}
@@ -26,8 +26,8 @@ def generate_study_material(text: str, topics: List[str] = None):
     except Exception as e:
         print("Study Material Error:", e)
         return {
-            "core_concepts": ["Error generating content. Please verify your API key and document."],
-            "key_points": [f"Error details: {str(e)}"],
+            "core_concepts": "Error generating content. Please verify your API key and document.",
+            "key_points": f"Error details: {str(e)}",
             "summary": "Please try again and ensure the Gemini API is correctly configured.",
             "study_notes": ""
         }
