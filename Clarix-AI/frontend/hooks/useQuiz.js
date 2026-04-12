@@ -8,7 +8,11 @@ export function useQuiz() {
   const generateQuiz = async (documentId, settings) => {
     setIsGenerating(true);
     // API logic to generate MCQs
-    };
+    
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   return { generateQuiz, isGenerating, quizData };
 }
