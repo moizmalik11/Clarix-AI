@@ -1,6 +1,10 @@
 import './globals.css';
 import Navbar from '../components/Navbar';
 import { ClarixProvider } from '../context/ClarixContext';
+import { Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata = {
   title: 'Clarix AI | Enterprise Document Intelligence',
@@ -9,7 +13,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", inter.variable)}>
       <body className="antialiased">
         <ClarixProvider>
           <Navbar />

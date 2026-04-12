@@ -43,11 +43,11 @@ export default function UploadZone() {
             onChange={handleUpload}
           />
           
-          <label htmlFor="file-upload" className="cursor-pointer">
-            <div className="inline-flex items-center justify-center rounded-xl text-md font-bold transition-all hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-10 shadow-lg">
+          <Button asChild size="lg" className="h-12 px-10 text-md font-bold shadow-lg transition-all hover:scale-105 active:scale-95">
+            <label htmlFor="file-upload" className="cursor-pointer">
               Browse Files
-            </div>
-          </label>
+            </label>
+          </Button>
         </>
       ) : (
         <div className="flex flex-col items-center w-full relative group animate-in zoom-in fade-in duration-500">
@@ -74,17 +74,18 @@ export default function UploadZone() {
               id="file-upload-change"
               onChange={handleUpload}
             />
-            <label htmlFor="file-upload-change" className="cursor-pointer w-full block">
-              <div className="flex items-center justify-center w-full p-2.5 rounded-lg border-2 border-border text-sm font-medium hover:bg-muted/50 transition-colors">
+            <Button asChild variant="outline" className="w-full text-sm font-medium border-2 hover:bg-muted/50 h-11">
+              <label htmlFor="file-upload-change" className="cursor-pointer flex items-center justify-center">
                 <RefreshCw className="w-4 h-4 mr-2 text-muted-foreground" /> Change File
-              </div>
-            </label>
-            <button
+              </label>
+            </Button>
+            <Button
+               variant="ghost"
                onClick={clearFile}
-               className="w-full p-2 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors font-medium"
+               className="w-full text-sm text-destructive hover:bg-destructive/10 hover:text-destructive transition-colors font-medium h-10"
             >
               Remove
-            </button>
+            </Button>
           </div>
         </div>
       )}

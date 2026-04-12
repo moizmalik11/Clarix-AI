@@ -49,9 +49,10 @@ export default function SettingsPanel() {
       
       {/* Mode Selection */}
       <div className="grid grid-cols-2 gap-4 mb-8 mt-2 relative z-10">
-        <button
+        <Button
+          variant="outline"
           onClick={() => !loading && setActiveMode('study')}
-          className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
+          className={`h-auto flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
             activeMode === 'study' 
               ? 'border-primary bg-primary/5 shadow-sm scale-105' 
               : 'border-border bg-card hover:bg-muted/50 hover:border-primary/50'
@@ -62,14 +63,15 @@ export default function SettingsPanel() {
           <span className={`font-semibold ${activeMode === 'study' ? 'text-primary' : 'text-foreground'}`}>
             Study Syllabus
           </span>
-          <span className="text-[10px] text-muted-foreground mt-1 text-center">
+          <span className="text-[10px] text-muted-foreground mt-1 text-center font-normal">
             AI Explains & Teaches
           </span>
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="outline"
           onClick={() => !loading && setActiveMode('quiz')}
-          className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
+          className={`h-auto flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
             activeMode === 'quiz' 
               ? 'border-blue-500 bg-blue-500/5 shadow-sm scale-105' 
               : 'border-border bg-card hover:bg-muted/50 hover:border-blue-500/50'
@@ -80,10 +82,10 @@ export default function SettingsPanel() {
           <span className={`font-semibold ${activeMode === 'quiz' ? 'text-blue-500' : 'text-foreground'}`}>
             Take a Quiz
           </span>
-          <span className="text-[10px] text-muted-foreground mt-1 text-center">
+          <span className="text-[10px] text-muted-foreground mt-1 text-center font-normal">
             AI Generates MCQs
           </span>
-        </button>
+        </Button>
       </div>
 
       {activeMode === 'quiz' ? (
@@ -116,18 +118,19 @@ export default function SettingsPanel() {
             <label className="font-semibold text-foreground block mb-3">Difficulty Level</label>
             <div className="grid grid-cols-3 gap-3 bg-muted p-1.5 rounded-xl shadow-inner">
               {['easy', 'medium', 'hard'].map((level) => (
-                <button
+                <Button
+                  variant="ghost"
                   key={level}
                   onClick={() => setSettings({ ...settings, difficulty: level })}
                   disabled={loading}
-                  className={`py-2.5 text-sm font-bold rounded-lg capitalize transition-all ${
+                  className={`h-auto py-2.5 text-sm font-bold rounded-lg capitalize transition-all ${
                     settings.difficulty === level 
-                      ? 'bg-background text-primary shadow-sm ring-1 ring-border' 
+                      ? 'bg-background text-primary shadow-sm ring-1 ring-border hover:bg-background' 
                       : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
                   } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {level}
-                </button>
+                </Button>
               ))}
             </div>
           </div>

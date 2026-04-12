@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { CheckCircle2, XCircle, Info } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { Button } from './ui/button';
 
 export default function MCQCard({ index, question, options = [], correctAnswerIndex, explanation }) {
   const [selected, setSelected] = useState(null);
@@ -51,16 +52,17 @@ export default function MCQCard({ index, question, options = [], correctAnswerIn
       
       <div className="space-y-3 pl-0 sm:pl-12">
         {options.map((opt, i) => (
-          <button 
+          <Button
+            variant="outline"
             key={i}
             onClick={() => handleSelect(i)}
             disabled={selected !== null}
             className={cn(
-              "w-full text-left p-4 rounded-xl border-2 transition-all flex items-center justify-between gap-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+              "w-full h-auto text-left p-4 rounded-xl border-2 transition-all flex items-center justify-between gap-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 whitespace-normal",
               getOptionStyle(i)
             )}
           >
-            <div className="flex items-center gap-3 w-full pr-2">
+            <div className="flex items-center gap-3 w-full pr-2 text-left">
               <span className={cn(
                 "flex items-center justify-center w-7 h-7 rounded-md border text-xs font-bold shrink-0 shadow-sm bg-background",
                 selected !== null ? "border-transparent backdrop-blur-sm" : "border-border text-foreground"
@@ -70,7 +72,7 @@ export default function MCQCard({ index, question, options = [], correctAnswerIn
               <span className="flex-1 leading-snug">{opt}</span>
             </div>
             {getIcon(i)}
-          </button>
+          </Button>
         ))}
       </div>
 
