@@ -13,13 +13,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-
-app.include_router(upload_router, prefix="/api", tags=["Upload"])
-app.include_router(study_router, prefix="/api", tags=["Study"])
-app.include_router(quiz_router, prefix="/api", tags=["Quiz"])
-
-@app.get("/")
-def root():
-    return {"message": "Welcome to Clarix-AI API"}
