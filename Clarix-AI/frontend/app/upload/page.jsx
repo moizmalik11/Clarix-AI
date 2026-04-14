@@ -31,6 +31,8 @@ export default function UploadPage() {
   };
 
   return (
+      <StepTracker />
+      
       <div className="mt-12 max-w-5xl mx-auto transition-all duration-500 ease-in-out">
         {!file ? (
           // Step 1: Upload Only (Centered)
