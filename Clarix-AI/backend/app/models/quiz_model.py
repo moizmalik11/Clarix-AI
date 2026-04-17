@@ -14,6 +14,9 @@ class MCQQuestion(BaseModel):
     question: str
     options: List[MCQOption]
     explanation: str
+    
+    
+    
 
 class QuizResponse(BaseModel):
     questions: List[MCQQuestion]
