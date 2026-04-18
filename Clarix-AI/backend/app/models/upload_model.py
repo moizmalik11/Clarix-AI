@@ -6,3 +6,5 @@ class UploadResponse(BaseModel):
     message: str
     extracted_text: str
     topics: List[str] = []
+
+
