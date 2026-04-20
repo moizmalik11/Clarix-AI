@@ -4,10 +4,3 @@ from app.services.study_service import generate_study_material
 
 router = APIRouter()
 
-@router.post("/study", response_model=StudyResponse)
-async def study_content(request: StudyRequest):
-    if not request.text:
-        raise HTTPException(status_code=400, detail="Text is required")
-    
-    result = generate_study_material(request.text, request.topics)
-    return StudyResponse(**result)
