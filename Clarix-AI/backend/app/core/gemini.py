@@ -9,6 +9,15 @@ from app.core.config import settings
 # Explicitly load .env so os.environ gets populated properly
 load_dotenv()
 
+# Collect all Gemini keys from environment variables (e.g., GEMINI_API_KEY_1, GEMINI_API_KEY_2...)
+gemini_keys = [v for k, v in os.environ.items() if k.startswith("GEMINI_API_KEY") and v.strip()]
+
+# If no multiple keys found, use the single default one
+if not gemini_keys and settings.GEMINI_API_KEY and settings.GEMINI_API_KEY != "your_gemini_api_key_here":
+    gemini_keys.append(settings.GEMINI_API_KEY)
+
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+
 def generate_content_with_fallback(prompt: str) -> str:
     """
     Tries multiple Gemini API keys in round-robin fashion.
