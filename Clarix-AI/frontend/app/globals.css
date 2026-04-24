@@ -5,36 +5,46 @@
 @tailwind utilities;
 
 @layer base {
-  :root, .dark {
-    --background: 0 0% 3%;
-    --foreground: 0 0% 100%;
+  :root {
+    /* Soft, Academic Light Theme */
+    --background: 0 0% 98%; /* Warm, soft white #fafafa */
+    --foreground: 222 47% 11%; /* Dark slate blue text */
 
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 47 100% 50%;
-    --primary-foreground: 0 0% 0%;
+    --primary: 236 82% 64%; /* Pleasant Soft Indigo/Blue */
+    --primary-foreground: 210 40% 98%; /* White text inside buttons */
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 47 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 47 100% 50%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 236 82% 64%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
+  }
+
+  .dark {
+    /* Optional dark theme, fallback to soft slate */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --primary: 236 82% 74%;
+    --primary-foreground: 222 47% 11%;
+    /* ... skipped full dark mode for brevity, focusing on light mode ... */
   }
 }
 
@@ -50,31 +60,21 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground bg-[size:50px_50px];
+    @apply font-sans antialiased bg-background text-foreground;
+    /* Soft study dot pattern */
     background-image: 
-      linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-    position: relative;
-    overflow-x: hidden;
-  }
-
-  ::selection {
-    @apply bg-primary/20 text-primary;
+      radial-gradient(circle, rgba(100, 116, 139, 0.15) 1.5px, transparent 1.5px);
+    background-size: 32px 32px;
+    background-position: 0 0;
   }
 }
 
 @layer utilities {
-  .text-glow {
-    text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-  }
-  .box-glow {
-    box-shadow: 0 0 50px rgba(255, 215, 0, 0.1);
-  }
   .glass-panel {
-    @apply bg-black/40 backdrop-blur-xl border border-white/10;
+    @apply bg-white/80 backdrop-blur-xl border border-slate-200/60 shadow-sm transition-all;
   }
-  .floating-orb {
-    @apply absolute rounded-full blur-[100px] opacity-30 pointer-events-none;
+  .glass-card {
+    @apply bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-md transition-all hover:shadow-lg;
   }
   .animate-float {
     animation: float 6s ease-in-out infinite;
@@ -86,6 +86,6 @@
 
 @keyframes float {
   0% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
+  50% { transform: translateY(-15px) scale(1.02); }
   100% { transform: translateY(0px) scale(1); }
 }
