@@ -3,17 +3,7 @@ import os
 def create_structure_and_files():
     base_dir = r"E:\Projects\Clarix\Clarix-AI\backend"
     
-    # Define the directory structure
-    directories = [
-        "app",
-        "app/api",
-        "app/services",
-        "app/models",
-        "app/core",
-        "app/utils",
-        "uploads"
-    ]
-    
+ 
     for directory in directories:
         os.makedirs(os.path.join(base_dir, directory), exist_ok=True)
         # Create __init__.py in python packages
