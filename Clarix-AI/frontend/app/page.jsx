@@ -10,7 +10,22 @@ function FadeIn({ children, delay = 0, className = "" }) {
   const domRef = useRef();
   const [isVisible, setVisible] = useState(false);
 
-  const currentRef = domRef.current;
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const currentRef = domRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, []);
+
   return (
     <div
       ref={domRef}
