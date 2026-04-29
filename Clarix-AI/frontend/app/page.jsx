@@ -17,6 +17,8 @@ function FadeIn({ children, delay = 0, className = "" }) {
           setVisible(true);
         }
       });
+
+
     }, { threshold: 0.1 });
 
     const currentRef = domRef.current;
