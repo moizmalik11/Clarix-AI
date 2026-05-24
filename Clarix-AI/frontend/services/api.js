@@ -10,10 +10,6 @@ export const uploadFileAPI = async (file) => {
     body: formData,
   });
 
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => ({}));
-    throw new Error(errorData.detail || 'Upload failed');
-  }
 
   return res.json();
 };
