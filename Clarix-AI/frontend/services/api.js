@@ -14,24 +14,18 @@ export const uploadFileAPI = async (file) => {
   return res.json();
 };
 
-if (!res.ok) {
-  throw new Error('Failed to generate study material');
-}
-
-return res.json();
-};
-
-export const takeQuizAPI = async (text, questionCount = 5, difficulty = 'medium') => {
-  const res = await fetch(`${API_URL}/quiz`, {
+export const studySyllabusAPI = async (text, topics = []) => {
+  const res = await fetch(`${API_URL}/study`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text, question_count: questionCount, difficulty }),
+    body: JSON.stringify({ text, topics }),
   });
 
   if (!res.ok) {
-    throw new Error('Failed to generate quiz');
+    throw new Error('Failed to generate study material');
   }
 
   return res.json();
 };
+
 
