@@ -6,5 +6,15 @@ export function useQuiz() {
   const [quizData, setQuizData] = useState(null);
 
 
-  return { generateQuiz, isGenerating, quizData };
+  setQuizData(mockResult);
+  return mockResult;
+} catch (e) {
+  console.error(e);
+  return null;
+} finally {
+  setIsGenerating(false);
+}
+  };
+
+return { generateQuiz, isGenerating, quizData };
 }
