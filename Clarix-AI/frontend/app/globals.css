@@ -82,12 +82,64 @@
     @apply bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-md transition-all hover:shadow-lg;
   }
 
+  .glass-panel-premium {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+      0 4px 30px rgba(0, 0, 0, 0.03), 
+      inset 0 1px 1px rgba(255, 255, 255, 0.8),
+      0 1px 3px rgba(0, 0, 0, 0.02);
+  }
+
+  .glass-card-premium {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 
+      0 10px 30px -10px rgba(99, 102, 241, 0.08),
+      0 1px 1px rgba(255, 255, 255, 0.8),
+      inset 0 1px 2px rgba(255, 255, 255, 0.9);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glass-card-premium:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+      0 20px 40px -15px rgba(99, 102, 241, 0.15),
+      0 1px 1px rgba(255, 255, 255, 0.9),
+      inset 0 1px 2px rgba(255, 255, 255, 1);
+    border-color: rgba(99, 102, 241, 0.25);
+  }
+
+  .bg-grid-pattern {
+    background-size: 30px 30px;
+    background-image: 
+      linear-gradient(to right, rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+  }
+
+  .bg-grid-mask {
+    mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+  }
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
 
   .animate-float-delayed {
     animation: float 8s ease-in-out infinite 2s;
+  }
+
+  .animate-blob {
+    animation: blob-drift 25s infinite alternate ease-in-out;
+  }
+
+  .animate-blob-reverse {
+    animation: blob-drift 30s infinite alternate-reverse ease-in-out;
   }
 }
 
@@ -97,10 +149,25 @@
   }
 
   50% {
-    transform: translateY(-15px) scale(1.02);
+    transform: translateY(-12px) scale(1.01);
   }
 
   100% {
     transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes blob-drift {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(40px, -60px) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
   }
 }
