@@ -1,0 +1,8 @@
+{
+  "name": "clarix-ai-backend",
+  "version": "1.0.0",
+  "description": "FastAPI Backend for Clarix-AI",
+  "scripts": {
+    "dev": "venv\\Scripts\\uvicorn main:app --reload"
+  }
+}
