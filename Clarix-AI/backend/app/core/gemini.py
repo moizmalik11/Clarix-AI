@@ -1,4 +1,4 @@
-import google.generativeai as genai
+from google import genai
 import os
 import json
 import urllib.request
@@ -28,9 +28,11 @@ def generate_content_with_fallback(prompt: str) -> str:
     # Attempt to process with available Gemini Keys
     for api_key in gemini_keys:
         try:
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-2.0-flash')  # You can switch to gemini-2.5-flash if needed
-            response = model.generate_content(prompt)
+            client = genai.Client(api_key=api_key)
+            response = client.models.generate_content(
+                model='gemini-2.0-flash',
+                contents=prompt,
+            )
             if response.text:
                 return response.text
         except Exception as e:
