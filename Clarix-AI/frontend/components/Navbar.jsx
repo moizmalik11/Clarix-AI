@@ -1,22 +1,28 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { GraduationCap } from "lucide-react";
 import { Button } from "./ui/button";
 
 export default function Navbar() {
+  const pathname = usePathname();
+  
+  // Hide global navbar on home page to allow the nested mockup navbar to render
+  if (pathname === "/") return null;
+
   return (
-    <nav className="fixed top-0 left-0 w-full h-20 bg-white/70 backdrop-blur-xl border-b border-slate-200/40 flex items-center justify-between px-6 md:px-12 lg:px-16 z-50 transition-all duration-300">
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/10 to-transparent" />
-      
-      <Link href="/" className="font-display font-black text-2xl flex items-center gap-2.5 text-slate-900 hover:opacity-90 transition-opacity">
-        <div className="p-2 bg-indigo-50 border border-indigo-100/50 rounded-xl shadow-sm">
-          <GraduationCap className="h-6 w-6 text-primary shrink-0" />
+    <nav className="fixed top-0 left-0 w-full h-16 bg-white/80 backdrop-blur-md border-b border-slate-200/40 flex items-center justify-between px-6 md:px-12 z-50">
+      <Link href="/" className="font-display font-black text-xl flex items-center gap-2 text-slate-900">
+        <div className="p-1.5 bg-orange-500 rounded-lg text-white">
+          <GraduationCap className="h-4 w-4 shrink-0" />
         </div>
-        <span className="tracking-tight text-xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 to-indigo-750">Clarix AI</span>
+        <span className="tracking-tight">Clarix AI</span>
       </Link>
       
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
         <Link href="/upload">
-          <Button variant="default" size="default" className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold hover:from-indigo-750 hover:to-indigo-800 transition-all rounded-xl px-6 h-11 shadow-md shadow-indigo-600/10 hover:shadow-lg hover:shadow-indigo-600/20 hover:-translate-y-0.5 active:translate-y-0">
+          <Button variant="default" size="sm" className="bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full px-5 h-9 text-xs">
             Start Learning
           </Button>
         </Link>
