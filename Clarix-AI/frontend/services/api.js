@@ -32,7 +32,17 @@ export const studySyllabusAPI = async (text, topics = []) => {
   return res.json();
 };
 
+export const takeQuizAPI = async (text, questionCount = 5, difficulty = 'medium') => {
+  const res = await fetch(`${API_URL}/quiz`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, question_count: questionCount, difficulty }),
+  });
 
-return res.json();
+  if (!res.ok) {
+    throw new Error('Failed to generate quiz');
+  }
+
+  return res.json();
 };
 
