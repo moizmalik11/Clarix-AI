@@ -28,5 +28,5 @@ export function ClarixProvider({ children }) {
 }
 
 export function useClarix() {
-  return useContext(ClarixContext);
+
 }
