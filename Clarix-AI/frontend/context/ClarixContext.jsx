@@ -18,10 +18,7 @@ export function ClarixProvider({ children }) {
     <ClarixContext.Provider value={{
       file, setFile,
       settings, setSettings,
-      result, setResult,
-      activeMode, setActiveMode,
-      isAnalyzing, setIsAnalyzing,
-      isAnalyzed, setIsAnalyzed,
+
       extractedTopics, setExtractedTopics,
       extractedText, setExtractedText
     }}>
