@@ -71,6 +71,19 @@ pydantic
 FastAPI backend for processing documents and generating AI study materials.
 ''')
 
+    # app/core/config.py
+    with open(os.path.join(base_dir, "app/core/config.py"), "w", encoding="utf-8") as f:
+        f.write('''import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class Settings:
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+settings = Settings()
+''')
+
     # app/core/gemini.py
     with open(os.path.join(base_dir, "app/core/gemini.py"), "w", encoding="utf-8") as f:
         f.write('''import google.generativeai as genai
