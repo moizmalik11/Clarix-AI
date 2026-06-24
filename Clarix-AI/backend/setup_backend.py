@@ -281,7 +281,26 @@ async def study_content(request: StudyRequest):
     return StudyResponse(**result)
 ''')
 
-  
+    # app/api/quiz.py
+    with open(os.path.join(base_dir, "app/api/quiz.py"), "w", encoding="utf-8") as f:
+        f.write('''from fastapi import APIRouter, HTTPException
+from app.models.quiz_model import QuizRequest, QuizResponse, MCQQuestion
+from app.services.quiz_service import generate_quiz
+
+router = APIRouter()
+
+@router.post("/quiz", response_model=QuizResponse)
+async def create_quiz(request: QuizRequest):
+    if not request.text:
+        raise HTTPException(status_code=400, detail="Text is required")
+    
+    questions = generate_quiz(request.text, request.question_count, request.difficulty)
+    if not questions:
+        raise HTTPException(status_code=500, detail="Failed to generate quiz. Check API key and format.")
+        
+    return QuizResponse(questions=questions)
+''')
+
 if __name__ == "__main__":
     create_structure_and_files()
     print("Backend structure and files generated successfully!")
