@@ -71,19 +71,6 @@ pydantic
 FastAPI backend for processing documents and generating AI study materials.
 ''')
 
-    # app/core/config.py
-    with open(os.path.join(base_dir, "app/core/config.py"), "w", encoding="utf-8") as f:
-        f.write('''import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-class Settings:
-    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-settings = Settings()
-''')
-
     # app/core/gemini.py
     with open(os.path.join(base_dir, "app/core/gemini.py"), "w", encoding="utf-8") as f:
         f.write('''import google.generativeai as genai
@@ -126,38 +113,7 @@ def clean_extracted_text(text: str) -> str:
     return text
 ''')
 
-    # app/services/extractor.py
-    with open(os.path.join(base_dir, "app/services/extractor.py"), "w", encoding="utf-8") as f:
-        f.write('''import pdfplumber
-import docx
-
-def extract_text_from_pdf(file_path: str) -> str:
-    text = ""
-    with pdfplumber.open(file_path) as pdf:
-        for page in pdf.pages:
-            extracted = page.extract_text()
-            if extracted:
-                text += extracted + "\\n"
-    return text
-
-def extract_text_from_docx(file_path: str) -> str:
-    doc = docx.Document(file_path)
-    text = "\\n".join([para.text for para in doc.paragraphs])
-    return text
-
-def process_file(file_path: str, filename: str) -> str:
-    text = ""
-    ext = filename.split(".")[-1].lower()
-    if ext == "pdf":
-        text = extract_text_from_pdf(file_path)
-    elif ext in ["doc", "docx"]:
-        text = extract_text_from_docx(file_path)
-    else:
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-            text = f.read()
-    return text
-''')
-
+   
     # app/models/upload_model.py
     with open(os.path.join(base_dir, "app/models/upload_model.py"), "w", encoding="utf-8") as f:
         f.write('''from pydantic import BaseModel
@@ -325,26 +281,7 @@ async def study_content(request: StudyRequest):
     return StudyResponse(**result)
 ''')
 
-    # app/api/quiz.py
-    with open(os.path.join(base_dir, "app/api/quiz.py"), "w", encoding="utf-8") as f:
-        f.write('''from fastapi import APIRouter, HTTPException
-from app.models.quiz_model import QuizRequest, QuizResponse, MCQQuestion
-from app.services.quiz_service import generate_quiz
-
-router = APIRouter()
-
-@router.post("/quiz", response_model=QuizResponse)
-async def create_quiz(request: QuizRequest):
-    if not request.text:
-        raise HTTPException(status_code=400, detail="Text is required")
-    
-    questions = generate_quiz(request.text, request.question_count, request.difficulty)
-    if not questions:
-        raise HTTPException(status_code=500, detail="Failed to generate quiz. Check API key and format.")
-        
-    return QuizResponse(questions=questions)
-''')
-
+  
 if __name__ == "__main__":
     create_structure_and_files()
     print("Backend structure and files generated successfully!")
