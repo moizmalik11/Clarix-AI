@@ -4,52 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    /* Soft, Academic Light Theme */
-    --background: 0 0% 98%;
-    /* Warm, soft white #fafafa */
-    --foreground: 222 47% 11%;
-    /* Dark slate blue text */
-
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-
-    --primary: 236 82% 64%;
-    /* Pleasant Soft Indigo/Blue */
-    --primary-foreground: 210 40% 98%;
-    /* White text inside buttons */
-
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 236 82% 64%;
-
-    --radius: 1rem;
-  }
-
-  .dark {
-    /* Optional dark theme, fallback to soft slate */
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    --primary: 236 82% 74%;
-    --primary-foreground: 222 47% 11%;
-    /* ... skipped full dark mode for brevity, focusing on light mode ... */
-  }
+.dark {
+  /* Optional dark theme, fallback to soft slate */
+  --background: 222 47% 11%;
+  --foreground: 210 40% 98%;
+  --primary: 236 82% 74%;
+  --primary-foreground: 222 47% 11%;
+  /* ... skipped full dark mode for brevity, focusing on light mode ... */
+}
 }
 
 @layer base {
@@ -82,8 +44,8 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 
-      0 4px 30px rgba(0, 0, 0, 0.03), 
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.03),
       inset 0 1px 1px rgba(255, 255, 255, 0.8),
       0 1px 3px rgba(0, 0, 0, 0.02);
   }
@@ -93,7 +55,7 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 
+    box-shadow:
       0 10px 30px -10px rgba(99, 102, 241, 0.08),
       0 1px 1px rgba(255, 255, 255, 0.8),
       inset 0 1px 2px rgba(255, 255, 255, 0.9);
@@ -102,7 +64,7 @@
 
   .glass-card-premium:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 
+    box-shadow:
       0 20px 40px -15px rgba(99, 102, 241, 0.15),
       0 1px 1px rgba(255, 255, 255, 0.9),
       inset 0 1px 2px rgba(255, 255, 255, 1);
@@ -111,14 +73,14 @@
 
   .bg-grid-pattern {
     background-size: 30px 30px;
-    background-image: 
+    background-image:
       linear-gradient(to right, rgba(99, 102, 241, 0.04) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
   }
 
   .bg-grid-warm {
     background-size: 40px 40px;
-    background-image: 
+    background-image:
       linear-gradient(to right, rgba(244, 63, 94, 0.035) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(244, 63, 94, 0.035) 1px, transparent 1px);
   }
@@ -163,12 +125,15 @@
   0% {
     transform: translate(0px, 0px) scale(1);
   }
+
   33% {
     transform: translate(40px, -60px) scale(1.1);
   }
+
   66% {
     transform: translate(-30px, 30px) scale(0.9);
   }
+
   100% {
     transform: translate(0px, 0px) scale(1);
   }
