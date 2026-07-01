@@ -1,15 +1,5 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { 
-  ArrowRight, BookOpen, BrainCircuit, FileText, GraduationCap, 
-  UploadCloud, CheckCircle, Lightbulb, UserCheck, Search, 
-  Users, Settings, Bell, MoreHorizontal, Mic, Video, 
-  ChevronRight, Check 
-} from "lucide-react";
-import { Button } from "../components/ui/button";
-
+g
 // Animated entry wrapper for scrolling
 function FadeIn({ children, delay = 0, className = "" }) {
   const domRef = useRef();
@@ -66,10 +56,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen relative bg-[#F2F2F2] text-[#111111] pt-10 pb-16 font-sans selection:bg-orange-500/10 selection:text-orange-600">
-      
+
       {/* 1. Main Page Browser Chrome Wrapper */}
       <div className="w-full max-w-[760px] mx-auto bg-white border border-[#E0E0E0] rounded-2xl shadow-[0_15px_60px_rgba(0,0,0,0.06)] overflow-hidden mb-12">
-        
+
         {/* Browser Top Bar */}
         <div className="h-11 bg-[#F0F0F0] border-b border-[#E0E0E0] flex items-center px-4 justify-between shrink-0 select-none">
           <div className="flex gap-1.5 shrink-0">
@@ -95,7 +85,7 @@ export default function Home() {
               </svg>
               <span className="tracking-tight text-xs">Clarix AI</span>
             </Link>
-            
+
             {/* Nav links */}
             <div className="flex items-center gap-5 text-[11px] font-bold text-[#666666]">
               <Link href="/" className="hover:text-[#111111] transition-colors">Home</Link>
@@ -116,7 +106,7 @@ export default function Home() {
 
           {/* Hero Gradient Card */}
           <div className="bg-gradient-to-r from-[#F9B9A8] to-[#C9B8F0] rounded-2xl pt-14 px-6 flex flex-col items-center overflow-hidden">
-            
+
             {/* Eyebrow */}
             <span className="inline-block bg-white/70 border border-neutral-100/40 rounded-full px-3 py-0.5 text-[8.5px] font-bold tracking-[0.15em] text-[#666666] uppercase mb-4 select-none">
               UNLOCK CONVERSATIONAL POWER
@@ -141,17 +131,17 @@ export default function Home() {
 
             {/* Dashboard Mockup Card (Cropped at bottom edge) */}
             <div className="w-full max-w-[620px] bg-white border border-[#E0E0E0] rounded-t-xl shadow-[0_8px_40px_rgba(0,0,0,0.08)] flex flex-col h-[240px] overflow-hidden translate-y-px text-[9px] select-none">
-              
+
               {/* Window body */}
               <div className="flex flex-1 overflow-hidden">
-                
+
                 {/* Panel 1: Sidebar (110px) */}
                 <div className="w-[110px] bg-[#FAFAFA] border-r border-[#E0E0E0]/60 p-2.5 flex flex-col gap-3 shrink-0">
                   <div className="flex items-center gap-1.5 px-0.5">
                     <div className="w-4 h-4 rounded-full bg-orange-100 flex items-center justify-center font-bold text-[8px] text-orange-700">C</div>
                     <span className="text-[9.5px] font-extrabold text-neutral-850 truncate">Clarix Studio</span>
                   </div>
-                  
+
                   <div className="flex flex-col gap-0.5">
                     <span className="text-[7px] font-black text-neutral-400 tracking-wider uppercase px-1 mb-0.5">OPTIONS</span>
                     <div className="bg-white border border-neutral-200/50 font-bold px-2 py-1 rounded-md flex items-center gap-1.5 text-neutral-800">
@@ -231,12 +221,12 @@ export default function Home() {
                 {/* Panel 3: Right Sidebar (120px) */}
                 <div className="w-[120px] bg-[#FAFAFA] border-l border-[#E0E0E0]/60 p-2.5 flex flex-col gap-2.5 shrink-0">
                   <h5 className="text-[8px] font-black tracking-wider text-neutral-400 uppercase">Detail Channels</h5>
-                  
+
                   <div className="space-y-0.5">
                     <span className="text-[7px] font-bold text-neutral-400">NAME CHANNEL</span>
                     <div className="text-[9px] font-extrabold text-neutral-900"># Biology-101</div>
                   </div>
-                  
+
                   <div className="space-y-0.5">
                     <span className="text-[7px] font-bold text-neutral-400">ABOUT</span>
                     <p className="text-[8.5px] leading-relaxed text-neutral-500 font-semibold">
@@ -338,7 +328,7 @@ export default function Home() {
                     <span className="text-[8px] font-bold text-slate-400">Core Topic 1.1</span>
                   </div>
                   <h4 className="text-[11px] font-black text-neutral-900">Photosynthesis: Light-dependent Reactions</h4>
-                  
+
                   <div className="space-y-1.5 border-t border-neutral-100 pt-1.5">
                     <div className="flex items-start gap-2">
                       <div className="w-1 h-1 rounded-full bg-orange-500 mt-1 shrink-0" />
@@ -373,7 +363,7 @@ export default function Home() {
                     <span className="text-[8.5px] font-bold text-neutral-800 bg-neutral-50 px-2 py-0.5 rounded-full uppercase tracking-wider">Practice Exam</span>
                     <span className="text-[8px] font-bold text-slate-400">MCQ Mock</span>
                   </div>
-                  
+
                   <h4 className="text-[10px] font-black text-neutral-900 leading-snug">What is the primary role of RuBisCO?</h4>
 
                   <div className="space-y-1">
