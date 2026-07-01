@@ -1,5 +1,15 @@
 "use client";
-g
+
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import {
+  ArrowRight, BookOpen, BrainCircuit, FileText, GraduationCap,
+  UploadCloud, CheckCircle, Lightbulb, UserCheck, Search,
+  Users, Settings, Bell, MoreHorizontal, Mic, Video,
+  ChevronRight, Check
+} from "lucide-react";
+import { Button } from "../components/ui/button";
+
 // Animated entry wrapper for scrolling
 function FadeIn({ children, delay = 0, className = "" }) {
   const domRef = useRef();
